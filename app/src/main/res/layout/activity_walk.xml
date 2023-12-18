@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Walk">
+    tools:context=".activities.Walk">
 
     <TextView
         android:id="@+id/pageTitle"
@@ -66,18 +66,18 @@
         app:layout_constraintVertical_bias="0.155" />
 
     <RadioGroup
-        android:id="@+id/difficulty"
-        android:layout_width="96dp"
-        android:layout_height="124dp"
+        android:id="@+id/radioGroupDifficulty"
+        android:layout_width="155dp"
+        android:layout_height="130dp"
         android:layout_below="@+id/walkTitle"
         android:layout_alignParentStart="true"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:layout_toStartOf="@+id/terrain"
+        android:layout_toStartOf="@+id/radioGroupTerrain"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/terrain"
+        app:layout_constraintEnd_toStartOf="@id/radioGroupTerrain"
         app:layout_constraintHorizontal_bias="0.042"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/pageTitle"
@@ -92,7 +92,7 @@
 
         <RadioButton
             android:id="@+id/radioMedium"
-            android:layout_width="97dp"
+            android:layout_width="119dp"
             android:layout_height="wrap_content"
             android:checked="false"
             android:text="@string/medium" />
@@ -106,7 +106,7 @@
     </RadioGroup>
 
     <RadioGroup
-        android:id="@+id/terrain"
+        android:id="@+id/radioGroupTerrain"
         android:layout_width="97dp"
         android:layout_height="125dp"
         android:layout_below="@+id/walkTitle"
@@ -114,11 +114,11 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:layout_toEndOf="@+id/difficulty"
+        android:layout_toEndOf="@+id/radioGroupDifficulty"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.962"
-        app:layout_constraintStart_toEndOf="@+id/difficulty"
+        app:layout_constraintStart_toEndOf="@+id/radioGroupDifficulty"
         app:layout_constraintTop_toTopOf="@+id/pageTitle"
         app:layout_constraintVertical_bias="0.275">
 
@@ -137,7 +137,7 @@
             android:text="@string/forest" />
 
         <RadioButton
-            android:id="@+id/radiohill"
+            android:id="@+id/radioHill"
             android:layout_width="97dp"
             android:layout_height="wrap_content"
             android:checked="false"
@@ -145,7 +145,7 @@
     </RadioGroup>
 
     <Button
-        android:id="@+id/waButton"
+        android:id="@+id/walkButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
