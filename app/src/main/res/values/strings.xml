@@ -3,22 +3,14 @@
     <string name="pageTitle">Welcome Homer</string>
     <string name="pageSubtitle">Please Add Your Walk</string>
     <string name="hint_walkTitle">Walk Title</string>
-
     <string name="walkButton">Add Walk</string>
-<!--    <string name="paypal">PayPal</string>
-    <string name="direct">Direct</string>-->
-    <string name="amount">Amount</string>
-    <string name="total">Total so Far</string>
-    <string name="totalSoFar">$%d</string>
-    <string name="reportTitle">Donations Report</string>
-    <string name="defaultAmount">00</string>
-    <string name="defaultMethod">N/A</string>
-    <string name="enter_amount">Enter Amount</string>
-
     <string name="easy">Easy</string>
     <string name="medium">Medium</string>
     <string name="hard">Hard</string>
     <string name="beach">Beach</string>
     <string name="forest">Forest</string>
     <string name="hill">Hill</string>
+
+    <string name="action_walk">Add Walk</string>
+    <string name="action_list">List</string>
 </resources>
