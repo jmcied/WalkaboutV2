@@ -5,10 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.recyclerview.widget.LinearLayoutManager
 import ie.wit.walkabout.R
+import ie.wit.walkabout.adapters.WalkAdapter
 import ie.wit.walkabout.databinding.ActivityListBinding
 import ie.wit.walkabout.databinding.ActivityWalkBinding
 import ie.wit.walkabout.main.WalkaboutApp
+import ie.wit.walkabout.main.walksStore
 
 class List : AppCompatActivity() {
 
@@ -18,7 +21,10 @@ class List : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         listLayout = ActivityListBinding.inflate(layoutInflater)
         setContentView(listLayout.root)
+
         app = this.application as WalkaboutApp
+        listLayout.recyclerView.layoutManager = LinearLayoutManager(this)
+        listLayout.recyclerView.adapter = WalkAdapter(walksStore.findAll())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
