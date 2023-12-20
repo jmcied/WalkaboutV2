@@ -17,7 +17,8 @@ class WalkaboutMemStore : WalkaboutStore {
     }
 
     override fun findById(id: Long): WalkaboutModel? {
-        return walks.find { it.id == id }
+        val foundWalk: WalkaboutModel? = walks.find { it.id == id }
+        return foundWalk
     }
 
     override fun create(walk: WalkaboutModel) {

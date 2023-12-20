@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/walkFragment">
+
+    <fragment
+        android:id="@+id/walkFragment"
+        android:name="ie.wit.walkabout.fragments.WalkFragment"
+        android:label="fragment_walk"
+        tools:layout="@layout/fragment_walk" />
+    <fragment
+        android:id="@+id/listFragment2"
+        android:name="ie.wit.walkabout.ListFragment"
+        android:label="fragment_list"
+        tools:layout="@layout/fragment_list" />
+</navigation>

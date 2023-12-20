@@ -20,8 +20,9 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginEnd="16dp"
-            app:srcCompat="@mipmap/ic_launcher_round"
-            android:contentDescription="@string/app_name" />
+            android:contentDescription="@string/app_name"
+            app:srcCompat="@mipmap/ic_launcher_round" />
+
 <!--        <TextView
             android:id="@+id/walkTitle"
             android:layout_width="0dp"
@@ -33,28 +34,29 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Booley Bay" />-->
 
-       <TextView
-            android:id="@+id/radioGroupTerrain"
+        <TextView
+            android:id="@+id/terrain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="20dp"
             android:layout_toEndOf="@+id/imageIcon"
             android:text="@string/beach"
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/radioGroupDifficulty"
-            android:layout_width="wrap_content"
+            android:id="@+id/difficulty"
+            android:layout_width="92dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="15dp"
-            android:layout_toEndOf="@+id/radioGroupTerrain"
-            android:text="@string/easy"
-            android:textSize="24sp" />
-
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="41dp"
+            android:layout_toEndOf="@+id/terrain"
+            android:textSize="24sp"
+            android:text="5"/>
 
 
     </RelativeLayout>

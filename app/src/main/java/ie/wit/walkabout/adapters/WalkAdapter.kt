@@ -8,7 +8,7 @@ import ie.wit.walkabout.databinding.CardWalkBinding
 import ie.wit.walkabout.models.WalkaboutModel
 import timber.log.Timber
 
-class WalkAdapter constructor(private var donations: List<WalkaboutModel>)
+class WalkAdapter constructor(private var walks: List<WalkaboutModel>)
     : RecyclerView.Adapter<WalkAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
@@ -19,18 +19,18 @@ class WalkAdapter constructor(private var donations: List<WalkaboutModel>)
     }
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
-        val donation = donations[holder.adapterPosition]
-        holder.bind(donation)
+        val walk = walks[holder.adapterPosition]
+        holder.bind(walk)
     }
 
-    override fun getItemCount(): Int = donations.size
+    override fun getItemCount(): Int = walks.size
 
     inner class MainHolder(val binding : CardWalkBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(walk: WalkaboutModel) {
             //binding.walkTitle.text = walk.title
-            binding.radioGroupDifficulty.text = walk.difficulty
-            binding.radioGroupTerrain.text = walk.terrain
+            binding.difficulty.text = walk.difficulty.toString()
+            binding.terrain.text = walk.terrain
             binding.imageIcon.setImageResource(R.mipmap.ic_launcher_round)
         }
     }
