@@ -23,4 +23,7 @@
     <string name="nav_header_subtitle">user@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
 
+    <string name="action_about">About Us</string>
+    <string name="aboutus_message">Welcome to WalkAbout\n\nAdd your favourite places to walk</string>
+
 </resources>
