@@ -10,13 +10,13 @@
         android:id="@+id/pageTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/pageTitle"
         android:textAppearance="?android:attr/textAppearanceLarge"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -30,21 +30,21 @@
         android:id="@+id/pageSubtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/pageTitle"
         android:layout_alignEnd="@+id/pageTitle"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/pageTitle"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/pageSubtitle"
         android:textAppearance="?android:attr/textAppearanceMedium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintHorizontal_bias="0.045"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.114" />
+        app:layout_constraintTop_toBottomOf="@+id/pageTitle"
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/walkTitle"
@@ -53,7 +53,6 @@
         android:layout_below="@+id/pageSubtitle"
         android:layout_alignEnd="@+id/pageSubtitle"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:hint="@string/hint_walkTitle"
         android:inputType="text"
@@ -62,17 +61,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/pageTitle"
-        app:layout_constraintVertical_bias="0.155" />
+        app:layout_constraintTop_toBottomOf="@+id/pageSubtitle"
+        app:layout_constraintVertical_bias="0.037" />
 
     <RadioGroup
         android:id="@+id/radioGroupDifficulty"
-        android:layout_width="155dp"
-        android:layout_height="130dp"
+        android:layout_width="157dp"
+        android:layout_height="134dp"
         android:layout_below="@+id/walkTitle"
         android:layout_alignParentStart="true"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="6dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:layout_toStartOf="@+id/radioGroupTerrain"
@@ -80,8 +79,8 @@
         app:layout_constraintEnd_toStartOf="@id/radioGroupTerrain"
         app:layout_constraintHorizontal_bias="0.042"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/pageTitle"
-        app:layout_constraintVertical_bias="0.276">
+        app:layout_constraintTop_toBottomOf="@+id/walkTitle"
+        app:layout_constraintVertical_bias="0.056">
 
         <RadioButton
             android:id="@+id/radioEasy"
@@ -107,11 +106,10 @@
 
     <RadioGroup
         android:id="@+id/radioGroupTerrain"
-        android:layout_width="97dp"
-        android:layout_height="125dp"
+        android:layout_width="114dp"
+        android:layout_height="134dp"
         android:layout_below="@+id/walkTitle"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:layout_toEndOf="@+id/radioGroupDifficulty"
@@ -119,8 +117,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.962"
         app:layout_constraintStart_toEndOf="@+id/radioGroupDifficulty"
-        app:layout_constraintTop_toTopOf="@+id/pageTitle"
-        app:layout_constraintVertical_bias="0.275">
+        app:layout_constraintTop_toBottomOf="@+id/walkTitle"
+        app:layout_constraintVertical_bias="0.069">
 
         <RadioButton
             android:id="@+id/radioBeach"
@@ -151,15 +149,14 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="@string/walkButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.451"
+        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.944" />
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupDifficulty"
+        app:layout_constraintVertical_bias="0.04" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

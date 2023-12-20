@@ -5,8 +5,9 @@ import ie.wit.walkabout.models.WalkaboutMemStore
 import ie.wit.walkabout.models.WalkaboutStore
 import timber.log.Timber
 
-lateinit var walksStore: WalkaboutStore
 class WalkaboutApp : Application() {
+
+    lateinit var walksStore: WalkaboutStore
 
     override fun onCreate() {
         super.onCreate()

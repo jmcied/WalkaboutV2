@@ -8,11 +8,23 @@
     <fragment
         android:id="@+id/walkFragment"
         android:name="ie.wit.walkabout.fragments.WalkFragment"
-        android:label="fragment_walk"
-        tools:layout="@layout/fragment_walk" />
+        android:label="@string/action_walk"
+        tools:layout="@layout/fragment_walk" >
+        <action
+            android:id="@+id/action_walkFragment_to_listFragment"
+            app:destination="@id/listFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
     <fragment
-        android:id="@+id/listFragment2"
-        android:name="ie.wit.walkabout.ListFragment"
-        android:label="fragment_list"
-        tools:layout="@layout/fragment_list" />
+        android:id="@+id/listFragment"
+        android:name="ie.wit.walkabout.fragments.ListFragment"
+        android:label="@string/action_list"
+        tools:layout="@layout/fragment_list" >
+        <action
+            android:id="@+id/action_listFragment_to_walkFragment"
+            app:destination="@id/walkFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
 </navigation>

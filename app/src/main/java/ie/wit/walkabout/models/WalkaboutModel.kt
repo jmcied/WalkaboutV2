@@ -7,5 +7,5 @@ import kotlinx.parcelize.Parcelize
 data class WalkaboutModel(
     var id: Long = 0,
     var title: String = "",
-    var terrain: String = "N/A",
-    var difficulty: String = "N/A") : Parcelable
+    var terrain: String = "",
+    var difficulty: String = "") : Parcelable

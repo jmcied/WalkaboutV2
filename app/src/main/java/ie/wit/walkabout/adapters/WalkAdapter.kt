@@ -28,7 +28,7 @@ class WalkAdapter constructor(private var walks: List<WalkaboutModel>)
     inner class MainHolder(val binding : CardWalkBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(walk: WalkaboutModel) {
-            //binding.walkTitle.text = walk.title
+            binding.walkTitle.text = walk.title
             binding.difficulty.text = walk.difficulty.toString()
             binding.terrain.text = walk.terrain
             binding.imageIcon.setImageResource(R.mipmap.ic_launcher_round)
