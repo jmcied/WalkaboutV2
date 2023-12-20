@@ -8,7 +8,7 @@ var lastId = 0L
 internal fun getId(): Long {
     return lastId++
 }
-class WalkaboutMemStore : WalkaboutStore {
+object WalkaboutManager : WalkaboutStore {
 
     val walks = ArrayList<WalkaboutModel>()
 

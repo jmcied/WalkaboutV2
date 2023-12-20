@@ -10,7 +10,6 @@
     <string name="beach">Beach</string>
     <string name="forest">Forest</string>
     <string name="hill">Hill</string>
-    <string name="difficulty">Difficulty</string>
 
     <string name="action_walk">Add Walk</string>
     <string name="action_list">List</string>
@@ -26,4 +25,12 @@
     <string name="action_about">About Us</string>
     <string name="aboutus_message">Welcome to WalkAbout\n\nAdd your favourite places to walk</string>
 
+    <string name="walksNotFound">No Walkabouts Yet...\nGo Add a Walk!</string>
+    <string name="walkError">Error : Couldn\'t Add a Walk...</string>
+
+    <string name="walkDetails">Walk Details</string>
+    <string name="title">Title :</string>
+    <string name="difficulty">Difficulty :</string>
+    <string name="terrain">Terrain :</string>
+    <string name="upvotes">UpVotes :</string>
 </resources>
