@@ -2,10 +2,11 @@ package ie.wit.walkabout.ui.walk
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import ie.wit.walkabout.models.WalkaboutManager
 import ie.wit.walkabout.models.WalkaboutModel
 
-class WalkViewModel {
+class WalkViewModel : ViewModel() {
 
     private val status = MutableLiveData<Boolean>()
 

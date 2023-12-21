@@ -8,8 +8,7 @@ import ie.wit.walkabout.databinding.CardWalkBinding
 import ie.wit.walkabout.models.WalkaboutModel
 
 interface WalkClickListener {
-    fun onWalkClick(walk: WalkaboutModel)
-}
+    fun onWalkClick(walk: WalkaboutModel)}
 
 class WalkAdapter constructor(private var walks: List<WalkaboutModel>,
                               private val listener: WalkClickListener)
@@ -35,6 +34,7 @@ class WalkAdapter constructor(private var walks: List<WalkaboutModel>,
 /*          binding.walkTitle.text = walk.title
             binding.difficulty.text = walk.difficulty.toString()
             binding.terrain.text = walk.terrain*/
+            //binding.root.tag = walk._id
             binding.walk = walk
             binding.imageIcon.setImageResource(R.mipmap.ic_launcher_round)
             binding.root.setOnClickListener { listener.onWalkClick(walk) }

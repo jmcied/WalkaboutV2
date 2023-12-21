@@ -16,10 +16,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ie.wit.walkabout.R
 import ie.wit.walkabout.databinding.FragmentListBinding
 import ie.wit.walkabout.adapters.WalkAdapter
+import ie.wit.walkabout.adapters.WalkClickListener
 import ie.wit.walkabout.main.WalkaboutApp
 import ie.wit.walkabout.models.WalkaboutModel
 
-class ListFragment : Fragment() {
+class ListFragment : Fragment(), WalkClickListener  {
 
     lateinit var app: WalkaboutApp
     private var _fragBinding: FragmentListBinding? = null
@@ -29,7 +30,7 @@ class ListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //app = activity?.application as WalkaboutApp
-        setHasOptionsMenu(true)
+        //setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -72,18 +73,18 @@ class ListFragment : Fragment() {
     }
 
     private fun render(walksList: List<WalkaboutModel>) {
-        fragBinding.recyclerView.adapter = WalkAdapter(walksList)
+        fragBinding.recyclerView.adapter = WalkAdapter(walksList, this  )
         if (walksList.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
-            fragBinding.donationsNotFound.visibility = View.VISIBLE
+            fragBinding.walksNotFound.visibility = View.VISIBLE
         } else {
             fragBinding.recyclerView.visibility = View.VISIBLE
-            fragBinding.donationsNotFound.visibility = View.GONE
+            fragBinding.walksNotFound.visibility = View.GONE
         }
     }
 
     override fun onWalkClick(walk: WalkaboutModel) {
-        val action = ListFragmentDirections.actionListFragmentToWalkDetailFragment(walk.id)
+        val action = ListFragmentDirections.actionListFragmentToWalkDetailFragment2(walk.id)
         findNavController().navigate(action)
     }
 

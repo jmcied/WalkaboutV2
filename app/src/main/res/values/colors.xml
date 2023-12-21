@@ -5,4 +5,12 @@
     <color name="green">#00FF00</color>
     <color name="color_primary">#4CAF50</color>
     <color name="color_secondary">#8BC34A</color>
+
+    <color name="colorAccent">#1E571F</color>
+    <color name="ic_launcher_homer_background">#FFFFFF</color>
+
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="grey_100">#4CAF50</color>
+    <color name="grey_300">#E0E0E0</color>
+    <color name="grey_500">#9E9E9E</color>
 </resources>

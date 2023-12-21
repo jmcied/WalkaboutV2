@@ -12,6 +12,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.snackbar.Snackbar
+import ie.wit.walkabout.R
+import ie.wit.walkabout.databinding.FragmentWalkBinding
+import ie.wit.walkabout.models.WalkaboutModel
 import timber.log.Timber.Forest.i
 
 class WalkFragment : Fragment() {
@@ -21,24 +24,21 @@ class WalkFragment : Fragment() {
     private val fragBinding get() = _fragBinding!!
     private lateinit var walkViewModel: WalkViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+/*    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //app = activity?.application as WalkaboutApp
         setHasOptionsMenu(true)
-    }
+    }*/
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?): View? {
         _fragBinding = FragmentWalkBinding.inflate(inflater, container, false)
         val root = fragBinding.root
         activity?.title = getString(R.string.action_walk)
         setupMenu()
-
         walkViewModel = ViewModelProvider(this).get(WalkViewModel::class.java)
-        walkViewModel.observableStatus.observe(viewLifecycleOwner, Observer { status ->
-            status?.let { render(status) }
+        walkViewModel.observableStatus.observe(viewLifecycleOwner, Observer {
+            status -> status?.let { render(status) }
         })
 
         setButtonListener(fragBinding)
@@ -105,14 +105,12 @@ class WalkFragment : Fragment() {
                         ""
                     }
                 }
-                /*                app.walksStore.create(
-                    WalkaboutModel(
+                walkViewModel.addWalk(WalkaboutModel(
                         title = title,
                         difficulty = difficulty,
-                        terrain = terrain
-                    )           )
+                        terrain = terrain))
 
-                i("Added: $title, $difficulty, $terrain")*/
+                i("Added: $title, $difficulty, $terrain")
             } else {
                 Snackbar
                     .make(it, "Please Enter a title", Snackbar.LENGTH_LONG)

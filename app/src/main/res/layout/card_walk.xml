@@ -62,7 +62,7 @@
             android:layout_marginStart="60dp"
             android:layout_marginTop="50dp"
             android:layout_toEndOf="@+id/terrain"
-            android:text="@{walk.difficulty"
+            android:text="@{walk.difficulty}"
             android:textSize="24sp" />
 
     </RelativeLayout>

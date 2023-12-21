@@ -10,7 +10,7 @@ internal fun getId(): Long {
 }
 object WalkaboutManager : WalkaboutStore {
 
-    val walks = ArrayList<WalkaboutModel>()
+    private val walks = ArrayList<WalkaboutModel>()
 
     override fun findAll(): List<WalkaboutModel> {
         return walks
