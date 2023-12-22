@@ -1,3 +1,4 @@
+/*
 package ie.wit.walkabout.models
 
 import timber.log.Timber
@@ -8,9 +9,9 @@ var lastId = 0L
 internal fun getId(): Long {
     return lastId++
 }
-class WalkaboutMemStore : WalkaboutStore {
+object WalkaboutManager : WalkaboutStore {
 
-    val walks = ArrayList<WalkaboutModel>()
+    private val walks = ArrayList<WalkaboutModel>()
 
     override fun findAll(): List<WalkaboutModel> {
         return walks
@@ -22,7 +23,7 @@ class WalkaboutMemStore : WalkaboutStore {
     }
 
     override fun create(walk: WalkaboutModel) {
-        walk.id = getId()
+        walk.uid = getId()
         walks.add(walk)
         logAll()
     }
@@ -47,4 +48,4 @@ class WalkaboutMemStore : WalkaboutStore {
     }
 
 
-}
+}*/

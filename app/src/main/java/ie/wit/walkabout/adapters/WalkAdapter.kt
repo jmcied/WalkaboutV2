@@ -6,9 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import ie.wit.walkabout.R
 import ie.wit.walkabout.databinding.CardWalkBinding
 import ie.wit.walkabout.models.WalkaboutModel
-import timber.log.Timber
 
-class WalkAdapter constructor(private var walks: List<WalkaboutModel>)
+interface WalkClickListener {
+    fun onWalkClick(walk: WalkaboutModel)
+}
+
+class WalkAdapter constructor(private var walks: ArrayList<WalkaboutModel>,
+                              private val listener: WalkClickListener)
     : RecyclerView.Adapter<WalkAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
@@ -20,18 +24,27 @@ class WalkAdapter constructor(private var walks: List<WalkaboutModel>)
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
         val walk = walks[holder.adapterPosition]
-        holder.bind(walk)
+        holder.bind(walk,listener)
     }
 
+    fun removeAt(position: Int) {
+        walks.removeAt(position)
+        notifyItemRemoved(position)
+    }
     override fun getItemCount(): Int = walks.size
 
-    inner class MainHolder(val binding : CardWalkBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MainHolder(val binding : CardWalkBinding) :
+                            RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(walk: WalkaboutModel) {
-            binding.walkTitle.text = walk.title
+        fun bind(walk: WalkaboutModel, listener: WalkClickListener) {
+/*          binding.walkTitle.text = walk.title
             binding.difficulty.text = walk.difficulty.toString()
-            binding.terrain.text = walk.terrain
+            binding.terrain.text = walk.terrain*/
+            binding.root.tag = walk
+            binding.walk = walk
             binding.imageIcon.setImageResource(R.mipmap.ic_launcher_round)
+            binding.root.setOnClickListener { listener.onWalkClick(walk) }
+            binding.executePendingBindings()
         }
     }
 }

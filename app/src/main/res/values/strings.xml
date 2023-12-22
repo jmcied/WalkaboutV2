@@ -10,7 +10,6 @@
     <string name="beach">Beach</string>
     <string name="forest">Forest</string>
     <string name="hill">Hill</string>
-    <string name="difficulty">Difficulty</string>
 
     <string name="action_walk">Add Walk</string>
     <string name="action_list">List</string>
@@ -26,4 +25,35 @@
     <string name="action_about">About Us</string>
     <string name="aboutus_message">Welcome to WalkAbout\n\nAdd your favourite places to walk</string>
 
+    <string name="walksNotFound">No Walkabouts Yet...\nGo Add a Walk!</string>
+    <string name="walkError">Error : Couldn\'t Add a Walk...</string>
+
+    <string name="walkDetails">Walk Details</string>
+    <string name="title">Title :</string>
+    <string name="difficulty">Difficulty :</string>
+    <string name="terrain">Terrain :</string>
+    <string name="upvotes">UpVotes :</string>
+
+    <string name="messageLoading">Please Wait while the Walks are Loading...</string>
+
+    <string name="label_emailpassword">Email/Password Authentication</string>
+    <string name="desc_emailpassword">Use an email and password to authenticate with Firebase.</string>
+    <string name="sign_in">Sign In</string>
+    <string name="create_account">Create Account</string>
+    <string name="send_link">Send Link</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="verify_email">Verify Email</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="loading">Loading…</string>
+    <string name="signed_in">Signed In</string>
+    <string name="signed_out">Signed Out</string>
+    <string name="token_null">Token: null</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="desc_firebase_lockup">Firebase logo and name</string>
+    <string name="auth_failed">Authentication failed</string>
+    <string name="firebase_status_fmt">Firebase User: %s</string>
+    <string name="firebase_user_management">Firebase User Management</string>
+    <string name="emailpassword_status_fmt">Email User: %1$s (verified: %2$b)</string>
+    <string name="emailpassword_title_text">Please Login Below</string>
 </resources>
