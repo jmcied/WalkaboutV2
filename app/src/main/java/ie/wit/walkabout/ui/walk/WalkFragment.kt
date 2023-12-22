@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +16,8 @@ import com.google.android.material.snackbar.Snackbar
 import ie.wit.walkabout.R
 import ie.wit.walkabout.databinding.FragmentWalkBinding
 import ie.wit.walkabout.models.WalkaboutModel
+import ie.wit.walkabout.ui.auth.LoggedInViewModel
+import ie.wit.walkabout.ui.list.ListViewModel
 import timber.log.Timber.Forest.i
 
 class WalkFragment : Fragment() {
@@ -23,6 +26,8 @@ class WalkFragment : Fragment() {
     private var _fragBinding: FragmentWalkBinding? = null
     private val fragBinding get() = _fragBinding!!
     private lateinit var walkViewModel: WalkViewModel
+    private val listViewModel: ListViewModel by activityViewModels()
+    private val loggedInViewModel : LoggedInViewModel by activityViewModels()
 
 /*    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,10 +110,12 @@ class WalkFragment : Fragment() {
                         ""
                     }
                 }
-                walkViewModel.addWalk(WalkaboutModel(
+                walkViewModel.addWalk(loggedInViewModel.liveFirebaseUser,
+                    WalkaboutModel(
                         title = title,
                         difficulty = difficulty,
-                        terrain = terrain))
+                        terrain = terrain,
+                        email = loggedInViewModel.liveFirebaseUser.value?.email!!))
 
                 i("Added: $title, $difficulty, $terrain")
             } else {

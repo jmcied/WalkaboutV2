@@ -8,9 +8,10 @@ import ie.wit.walkabout.databinding.CardWalkBinding
 import ie.wit.walkabout.models.WalkaboutModel
 
 interface WalkClickListener {
-    fun onWalkClick(walk: WalkaboutModel)}
+    fun onWalkClick(walk: WalkaboutModel)
+}
 
-class WalkAdapter constructor(private var walks: List<WalkaboutModel>,
+class WalkAdapter constructor(private var walks: ArrayList<WalkaboutModel>,
                               private val listener: WalkClickListener)
     : RecyclerView.Adapter<WalkAdapter.MainHolder>() {
 
@@ -26,15 +27,20 @@ class WalkAdapter constructor(private var walks: List<WalkaboutModel>,
         holder.bind(walk,listener)
     }
 
+    fun removeAt(position: Int) {
+        walks.removeAt(position)
+        notifyItemRemoved(position)
+    }
     override fun getItemCount(): Int = walks.size
 
-    inner class MainHolder(val binding : CardWalkBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MainHolder(val binding : CardWalkBinding) :
+                            RecyclerView.ViewHolder(binding.root) {
 
         fun bind(walk: WalkaboutModel, listener: WalkClickListener) {
 /*          binding.walkTitle.text = walk.title
             binding.difficulty.text = walk.difficulty.toString()
             binding.terrain.text = walk.terrain*/
-            //binding.root.tag = walk._id
+            binding.root.tag = walk
             binding.walk = walk
             binding.imageIcon.setImageResource(R.mipmap.ic_launcher_round)
             binding.root.setOnClickListener { listener.onWalkClick(walk) }

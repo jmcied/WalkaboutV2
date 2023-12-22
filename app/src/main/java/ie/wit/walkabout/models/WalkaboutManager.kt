@@ -1,3 +1,4 @@
+/*
 package ie.wit.walkabout.models
 
 import timber.log.Timber
@@ -22,7 +23,7 @@ object WalkaboutManager : WalkaboutStore {
     }
 
     override fun create(walk: WalkaboutModel) {
-        walk.id = getId()
+        walk.uid = getId()
         walks.add(walk)
         logAll()
     }
@@ -47,4 +48,4 @@ object WalkaboutManager : WalkaboutStore {
     }
 
 
-}
+}*/

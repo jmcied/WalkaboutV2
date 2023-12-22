@@ -1,17 +1,21 @@
 package ie.wit.walkabout.ui.list
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ie.wit.walkabout.R
 import ie.wit.walkabout.databinding.FragmentListBinding
@@ -19,13 +23,23 @@ import ie.wit.walkabout.adapters.WalkAdapter
 import ie.wit.walkabout.adapters.WalkClickListener
 import ie.wit.walkabout.main.WalkaboutApp
 import ie.wit.walkabout.models.WalkaboutModel
+import ie.wit.walkabout.ui.auth.LoggedInViewModel
+import ie.wit.walkabout.ui.list.ListFragmentDirections.Companion.actionListFragmentToWalkDetailFragment
+import ie.wit.walkabout.utils.SwipeToDeleteCallback
+import ie.wit.walkabout.utils.SwipeToEditCallback
+import ie.wit.walkabout.utils.createLoader
+import ie.wit.walkabout.utils.hideLoader
+import ie.wit.walkabout.utils.showLoader
 
 class ListFragment : Fragment(), WalkClickListener  {
 
-    lateinit var app: WalkaboutApp
+    //lateinit var app: WalkaboutApp
     private var _fragBinding: FragmentListBinding? = null
     private val fragBinding get() = _fragBinding!!
-    private lateinit var listViewModel: ListViewModel
+    lateinit var loader : AlertDialog
+    private val listViewModel: ListViewModel by activityViewModels()
+    private val loggedInViewModel : LoggedInViewModel by activityViewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,19 +55,47 @@ class ListFragment : Fragment(), WalkClickListener  {
         val root = fragBinding.root
         //activity?.title = getString(R.string.action_list)
         setupMenu()
+        loader = createLoader(requireActivity())
+
         fragBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
-
-        listViewModel = ViewModelProvider(this).get(ListViewModel::class.java)
-        listViewModel.observableDonationsList.observe(viewLifecycleOwner, Observer {
-                walks ->
-            walks?.let { render(walks) }
-        })
-
-        val fab: FloatingActionButton = fragBinding.fab
-        fab.setOnClickListener {
+        fragBinding.fab.setOnClickListener {
             val action = ListFragmentDirections.actionListFragmentToWalkFragment()
             findNavController().navigate(action)
         }
+        showLoader(loader,"Downloading Donations")
+        listViewModel.observableWalksList.observe(viewLifecycleOwner, Observer {
+                walks ->
+            walks?.let {
+                render(walks as ArrayList<WalkaboutModel>)
+                hideLoader(loader)
+                checkSwipeRefresh()
+            }
+        })
+
+        setSwipeRefresh()
+
+        val swipeDeleteHandler = object : SwipeToDeleteCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                showLoader(loader,"Deleting Walk")
+                val adapter = fragBinding.recyclerView.adapter as WalkAdapter
+                adapter.removeAt(viewHolder.adapterPosition)
+                listViewModel.delete(listViewModel.liveFirebaseUser.value?.uid!!,
+                    (viewHolder.itemView.tag as WalkaboutModel).uid!!)
+
+                hideLoader(loader)
+            }
+        }
+        val itemTouchDeleteHelper = ItemTouchHelper(swipeDeleteHandler)
+        itemTouchDeleteHelper.attachToRecyclerView(fragBinding.recyclerView)
+
+        val swipeEditHandler = object : SwipeToEditCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                onWalkClick(viewHolder.itemView.tag as WalkaboutModel)
+            }
+        }
+        val itemTouchEditHelper = ItemTouchHelper(swipeEditHandler)
+        itemTouchEditHelper.attachToRecyclerView(fragBinding.recyclerView)
+
         return root
     }
     private fun setupMenu() {
@@ -72,7 +114,7 @@ class ListFragment : Fragment(), WalkClickListener  {
             }     }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
-    private fun render(walksList: List<WalkaboutModel>) {
+    private fun render(walksList: ArrayList<WalkaboutModel>) {
         fragBinding.recyclerView.adapter = WalkAdapter(walksList, this  )
         if (walksList.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
@@ -84,13 +126,33 @@ class ListFragment : Fragment(), WalkClickListener  {
     }
 
     override fun onWalkClick(walk: WalkaboutModel) {
-        val action = ListFragmentDirections.actionListFragmentToWalkDetailFragment2(walk.id)
+        val action = actionListFragmentToWalkDetailFragment(walk.uid!!)
         findNavController().navigate(action)
+    }
+
+    private fun setSwipeRefresh() {
+        fragBinding.swiperefresh.setOnRefreshListener {
+            fragBinding.swiperefresh.isRefreshing = true
+            showLoader(loader,"Downloading Walks")
+           listViewModel.load()
+        }
+    }
+
+    private fun checkSwipeRefresh() {
+        if (fragBinding.swiperefresh.isRefreshing)
+            fragBinding.swiperefresh.isRefreshing = false
     }
 
     override fun onResume() {
         super.onResume()
-        listViewModel.load()
+        showLoader(loader,"Downloading Donations")
+        loggedInViewModel.liveFirebaseUser.observe(viewLifecycleOwner, Observer { firebaseUser ->
+            if (firebaseUser != null) {
+                listViewModel.liveFirebaseUser.value = firebaseUser
+                listViewModel.load()
+            }
+        })
+        //hideLoader(loader)
     }
 
     override fun onDestroyView() {
