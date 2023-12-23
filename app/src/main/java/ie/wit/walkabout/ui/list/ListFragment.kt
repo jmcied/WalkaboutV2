@@ -3,6 +3,7 @@ package ie.wit.walkabout.ui.list
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -33,7 +34,6 @@ import ie.wit.walkabout.utils.showLoader
 
 class ListFragment : Fragment(), WalkClickListener  {
 
-    //lateinit var app: WalkaboutApp
     private var _fragBinding: FragmentListBinding? = null
     private val fragBinding get() = _fragBinding!!
     lateinit var loader : AlertDialog
@@ -43,8 +43,6 @@ class ListFragment : Fragment(), WalkClickListener  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //app = activity?.application as WalkaboutApp
-        //setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -53,7 +51,7 @@ class ListFragment : Fragment(), WalkClickListener  {
     ): View? {
         _fragBinding = FragmentListBinding.inflate(inflater, container, false)
         val root = fragBinding.root
-        //activity?.title = getString(R.string.action_list)
+
         setupMenu()
         loader = createLoader(requireActivity())
 
@@ -62,7 +60,7 @@ class ListFragment : Fragment(), WalkClickListener  {
             val action = ListFragmentDirections.actionListFragmentToWalkFragment()
             findNavController().navigate(action)
         }
-        showLoader(loader,"Downloading Donations")
+        showLoader(loader,"Downloading Walks")
         listViewModel.observableWalksList.observe(viewLifecycleOwner, Observer {
                 walks ->
             walks?.let {
@@ -106,16 +104,28 @@ class ListFragment : Fragment(), WalkClickListener  {
 
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.menu_list, menu)
+
+                val item = menu.findItem(R.id.toggleWalks) as MenuItem
+                item.setActionView(R.layout.togglebutton_layout)
+                val toggleWalks: SwitchCompat = item.actionView!!.findViewById(R.id.toggleButton)
+                toggleWalks.isChecked = false
+
+                toggleWalks.setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) listViewModel.loadAll()
+                    else listViewModel.load()
+                }
             }
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 // Validate and handle the selected menu item
                 return NavigationUI.onNavDestinationSelected(menuItem,
                     requireView().findNavController())
-            }     }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     private fun render(walksList: ArrayList<WalkaboutModel>) {
-        fragBinding.recyclerView.adapter = WalkAdapter(walksList, this  )
+        fragBinding.recyclerView.adapter = WalkAdapter(walksList, this,
+        listViewModel.readOnly.value!!)
         if (walksList.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
             fragBinding.walksNotFound.visibility = View.VISIBLE
@@ -127,14 +137,19 @@ class ListFragment : Fragment(), WalkClickListener  {
 
     override fun onWalkClick(walk: WalkaboutModel) {
         val action = actionListFragmentToWalkDetailFragment(walk.uid!!)
-        findNavController().navigate(action)
+        if(!listViewModel.readOnly.value!!) {
+            findNavController().navigate(action)
+        }
     }
 
     private fun setSwipeRefresh() {
         fragBinding.swiperefresh.setOnRefreshListener {
             fragBinding.swiperefresh.isRefreshing = true
             showLoader(loader,"Downloading Walks")
-           listViewModel.load()
+            if(listViewModel.readOnly.value!!)
+                listViewModel.loadAll()
+            else
+                listViewModel.load()
         }
     }
 

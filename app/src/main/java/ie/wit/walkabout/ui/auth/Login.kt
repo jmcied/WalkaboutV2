@@ -1,29 +1,23 @@
 package ie.wit.walkabout.ui.auth
 
-import androidx.appcompat.app.AppCompatActivity
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import ie.wit.walkabout.R
-import ie.wit.walkabout.databinding.LoginBinding
-import ie.wit.walkabout.utils.createLoader
-import ie.wit.walkabout.utils.hideLoader
-import ie.wit.walkabout.utils.showLoader
-import timber.log.Timber
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.android.material.snackbar.Snackbar
+import ie.wit.walkabout.R
+import ie.wit.walkabout.databinding.LoginBinding
 import ie.wit.walkabout.ui.home.Home
+import timber.log.Timber
+
 
 class Login : AppCompatActivity() {
 
@@ -54,13 +48,46 @@ class Login : AppCompatActivity() {
         // Check if user is signed in (non-null) and update UI accordingly.
         loginRegisterViewModel = ViewModelProvider(this).get(LoginRegisterViewModel::class.java)
         loginRegisterViewModel.liveFirebaseUser.observe(this, Observer
-        { firebaseUser -> if (firebaseUser != null)
+        { firebaseUser ->
+            if (firebaseUser != null)
             startActivity(Intent(this, Home::class.java)) })
 
         loginRegisterViewModel.firebaseAuthManager.errorStatus.observe(this, Observer
         { status -> checkStatus(status) })
 
         setupGoogleSignInCallback()
+    }
+
+    private fun googleSignIn() {
+        val signInIntent = loginRegisterViewModel.firebaseAuthManager
+            .googleSignInClient.value!!.signInIntent
+
+        startForResult.launch(signInIntent)
+    }
+
+    private fun setupGoogleSignInCallback() {
+        startForResult =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                when(result.resultCode){
+                    RESULT_OK -> {
+                        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                        try {
+                            // Google Sign In was successful, authenticate with Firebase
+                            val account = task.getResult(ApiException::class.java)
+                            loginRegisterViewModel.authWithGoogle(account!!)
+                        } catch (e: ApiException) {
+                            // Google Sign In failed
+                            Timber.i( "Google sign in failed $e")
+                            Snackbar.make(loginBinding.loginLayout, "Authentication Failed.",
+                               Snackbar.LENGTH_SHORT).show()
+                        }
+                        Timber.i("Walkabout Google Result $result.data")
+                    }
+                    RESULT_CANCELED -> {
+
+                    } else -> { }
+                }
+            }
     }
 
     //Required to exit app from Login Screen - must investigate this further
@@ -110,37 +137,5 @@ class Login : AppCompatActivity() {
             loginBinding.fieldPassword.error = null
         }
         return valid
-    }
-
-    private fun googleSignIn() {
-        val signInIntent = loginRegisterViewModel.firebaseAuthManager
-            .googleSignInClient.value!!.signInIntent
-
-        startForResult.launch(signInIntent)
-    }
-
-    private fun setupGoogleSignInCallback() {
-        startForResult =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                when(result.resultCode){
-                    RESULT_OK -> {
-                        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-                        try {
-                            // Google Sign In was successful, authenticate with Firebase
-                            val account = task.getResult(ApiException::class.java)
-                            loginRegisterViewModel.authWithGoogle(account!!)
-                        } catch (e: ApiException) {
-                            // Google Sign In failed
-                            Timber.i( "Google sign in failed $e")
- //                           Snackbar.make(loginBinding.loginLayout, "Authentication Failed.",
-                            //                               Snackbar.LENGTH_SHORT).show()
-                        }
-                        Timber.i("Walkabout Google Result $result.data")
-                    }
-                    RESULT_CANCELED -> {
-
-                    } else -> { }
-                }
-            }
     }
 }

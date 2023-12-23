@@ -10,8 +10,8 @@ interface WalkaboutStore {
                 walksList:
                 MutableLiveData<List<WalkaboutModel>>)
     fun findById(userid:String, walkid: String,
-                 donation: MutableLiveData<WalkaboutModel>)
+                 walk: MutableLiveData<WalkaboutModel>)
     fun create(firebaseUser: MutableLiveData<FirebaseUser>, walk: WalkaboutModel)
-    fun delete(userid:String, walkidid: String)
-    fun update(userid:String, walkidid: String, walkid: WalkaboutModel)
+    fun delete(userid:String, walkid: String)
+    fun update(userid:String, walkid: String, walk: WalkaboutModel)
 }

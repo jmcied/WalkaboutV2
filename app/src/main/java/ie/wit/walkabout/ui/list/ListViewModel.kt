@@ -11,11 +11,11 @@ import java.lang.Exception
 
 class ListViewModel : ViewModel() {
     private val walksList = MutableLiveData<List<WalkaboutModel>>()
-
     val observableWalksList: LiveData<List<WalkaboutModel>>
         get() = walksList
 
     var liveFirebaseUser = MutableLiveData<FirebaseUser>()
+    var readOnly = MutableLiveData(false)
 
     init {
         load()
@@ -23,11 +23,23 @@ class ListViewModel : ViewModel() {
 
     fun load() {
         try {
+            readOnly.value = false
             FirebaseDBManager.findAll(liveFirebaseUser.value?.uid!!,walksList)
-            Timber.i("Report Load Success : ${walksList.value.toString()}")
+            Timber.i("List Load Success : ${walksList.value.toString()}")
         }
         catch (e: Exception) {
-            Timber.i("Report Load Error : $e.message")
+            Timber.i("List Load Error : $e.message")
+        }
+    }
+
+    fun loadAll() {
+        try {
+            readOnly.value = true
+            FirebaseDBManager.findAll(walksList)
+            Timber.i("List LoadAll Success : ${walksList.value.toString()}")
+        }
+        catch (e: Exception) {
+            Timber.i("List LoadAll Error : $e.message")
         }
     }
 
@@ -40,5 +52,6 @@ class ListViewModel : ViewModel() {
             Timber.i("List Delete Error : $e.message")
         }
     }
+
 }
 

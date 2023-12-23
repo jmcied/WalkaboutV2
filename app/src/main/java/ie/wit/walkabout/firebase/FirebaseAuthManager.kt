@@ -15,7 +15,6 @@ import timber.log.Timber
 class FirebaseAuthManager(application: Application) {
 
     private var application: Application? = null
-
     var firebaseAuth: FirebaseAuth? = null
     var liveFirebaseUser = MutableLiveData<FirebaseUser>()
     var loggedOut = MutableLiveData<Boolean>()
@@ -30,6 +29,8 @@ class FirebaseAuthManager(application: Application) {
             liveFirebaseUser.postValue(firebaseAuth!!.currentUser)
             loggedOut.postValue(false)
             errorStatus.postValue(false)
+            FirebaseImageManager.checkStorageForExistingProfilePic(
+                firebaseAuth!!.currentUser!!.uid)
         }
         configureGoogleSignIn()
     }

@@ -22,21 +22,14 @@ import timber.log.Timber.Forest.i
 
 class WalkFragment : Fragment() {
 
-    //lateinit var app: WalkaboutApp
     private var _fragBinding: FragmentWalkBinding? = null
     private val fragBinding get() = _fragBinding!!
     private lateinit var walkViewModel: WalkViewModel
     private val listViewModel: ListViewModel by activityViewModels()
     private val loggedInViewModel : LoggedInViewModel by activityViewModels()
 
-/*    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        //app = activity?.application as WalkaboutApp
-        setHasOptionsMenu(true)
-    }*/
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+                                savedInstanceState: Bundle?): View? {
         _fragBinding = FragmentWalkBinding.inflate(inflater, container, false)
         val root = fragBinding.root
         activity?.title = getString(R.string.action_walk)
@@ -48,26 +41,6 @@ class WalkFragment : Fragment() {
 
         setButtonListener(fragBinding)
         return root;
-    }
-
-    private fun setupMenu() {
-        (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
-            override fun onPrepareMenu(menu: Menu) {
-                // Handle for example visibility of menu items
-            }
-
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_walk, menu)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                // Validate and handle the selected menu item
-                return NavigationUI.onNavDestinationSelected(
-                    menuItem,
-                    requireView().findNavController()
-                )
-            }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     private fun render(status: Boolean) {
@@ -115,8 +88,9 @@ class WalkFragment : Fragment() {
                         title = title,
                         difficulty = difficulty,
                         terrain = terrain,
-                        email = loggedInViewModel.liveFirebaseUser.value?.email!!))
-
+                        email = loggedInViewModel.liveFirebaseUser.value?.email!!
+                    )
+                )
                 i("Added: $title, $difficulty, $terrain")
             } else {
                 Snackbar
@@ -126,9 +100,33 @@ class WalkFragment : Fragment() {
         }
     }
 
+    private fun setupMenu() {
+        (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
+            override fun onPrepareMenu(menu: Menu) {
+                // Handle for example visibility of menu items
+            }
+
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_walk, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                // Validate and handle the selected menu item
+                return NavigationUI.onNavDestinationSelected(
+                    menuItem,
+                    requireView().findNavController()
+                )
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _fragBinding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 }
 

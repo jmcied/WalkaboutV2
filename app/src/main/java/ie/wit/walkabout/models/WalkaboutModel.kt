@@ -5,13 +5,14 @@ import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
-
+@IgnoreExtraProperties
 @Parcelize
 data class WalkaboutModel(
     var uid: String = "",
     var title: String = "N/A",
     var terrain: String = "N/A",
     var difficulty: String = "N/A",
+    var profilepic: String = "",
     var email: String = "joe@bloggs.com") : Parcelable
 {
     @Exclude
@@ -21,6 +22,7 @@ data class WalkaboutModel(
             "title" to title,
             "terrain" to terrain,
             "difficulty" to difficulty,
+            "profilepic" to profilepic,
             "email" to email
 
             )

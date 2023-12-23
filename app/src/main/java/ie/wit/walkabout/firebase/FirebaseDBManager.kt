@@ -15,8 +15,27 @@ object FirebaseDBManager : WalkaboutStore {
 
     var database: DatabaseReference = FirebaseDatabase.getInstance().reference
     override fun findAll(walksList: MutableLiveData<List<WalkaboutModel>>) {
-        TODO("Not yet implemented")
+        database.child("walks")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    Timber.i("Firebase Walk error : ${error.message}")
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val localList = ArrayList<WalkaboutModel>()
+                    val children = snapshot.children
+                    children.forEach {
+                        val walk = it.getValue(WalkaboutModel::class.java)
+                        localList.add(walk!!)
+                    }
+                    database.child("walks")
+                        .removeEventListener(this)
+
+                    walksList.value = localList
+                }
+            })
     }
+
 
     override fun findAll(userid: String, walksList: MutableLiveData<List<WalkaboutModel>>) {
 
@@ -86,5 +105,26 @@ object FirebaseDBManager : WalkaboutStore {
         childUpdate["user-walks/$userid/$walkid"] = walkValues
 
         database.updateChildren(childUpdate)
+    }
+
+    fun updateImageRef(userid: String,imageUri: String) {
+
+        val userWalks = database.child("user-walks").child(userid)
+        val allWalks = database.child("walks")
+
+        userWalks.addListenerForSingleValueEvent(
+            object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {}
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach {
+                        //Update Users imageUri
+                        it.ref.child("profilepic").setValue(imageUri)
+                        //Update all walks that match 'it'
+                        val walk = it.getValue(WalkaboutModel::class.java)
+                        allWalks.child(walk!!.uid!!)
+                            .child("profilepic").setValue(imageUri)
+                    }
+                }
+            })
     }
 }

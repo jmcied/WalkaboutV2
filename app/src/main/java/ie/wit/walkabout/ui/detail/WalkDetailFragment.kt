@@ -33,11 +33,11 @@ class WalkDetailFragment : Fragment() {
         detailViewModel = ViewModelProvider(this).get(WalkDetailViewModel::class.java)
         detailViewModel.observableWalk.observe(viewLifecycleOwner, Observer { render() })
 
-/*        fragBinding.editWalkButton.setOnClickListener {
+        fragBinding.editWalkButton.setOnClickListener {
             detailViewModel.updateWalk(loggedInViewModel.liveFirebaseUser.value?.uid!!,
                 args.walkid, fragBinding.walkvm?.observableWalk!!.value!!)
             findNavController().navigateUp()
-        }*/
+        }
 
         fragBinding.deleteWalkButton.setOnClickListener {
             reportViewModel.delete(loggedInViewModel.liveFirebaseUser.value?.email!!,
@@ -52,7 +52,7 @@ class WalkDetailFragment : Fragment() {
         fragBinding.editTitle.setText("")
         fragBinding.editTerrain.setText("")
         fragBinding.editDifficulty.setText("")
-        //fragBinding.walkvm = detailViewModel
+        fragBinding.walkvm = detailViewModel
         Timber.i("Retrofit fragBinding.walkvm == $fragBinding.walkvm")
     }
 
@@ -60,7 +60,6 @@ class WalkDetailFragment : Fragment() {
         super.onResume()
         detailViewModel.getWalk(loggedInViewModel.liveFirebaseUser.value?.uid!!,
             args.walkid)
-
     }
 
     override fun onDestroyView() {

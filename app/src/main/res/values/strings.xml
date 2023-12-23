@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Walkabout</string>
-    <string name="pageTitle">Welcome Homer</string>
+    <string name="pageTitle">Welcome User</string>
     <string name="pageSubtitle">Please Add Your Walk</string>
     <string name="hint_walkTitle">Walk Title</string>
     <string name="walkButton">Add Walk</string>
@@ -35,6 +35,7 @@
 
     <string name="messageLoading">Please Wait while the Walks are Loading...</string>
 
+    <!-- START Firebase Resources-->
     <string name="label_emailpassword">Email/Password Authentication</string>
     <string name="desc_emailpassword">Use an email and password to authenticate with Firebase.</string>
     <string name="sign_in">Sign In</string>
@@ -57,4 +58,5 @@
     <string name="emailpassword_title_text">Please Login Below</string>
     <string name="update">Update</string>
     <string name="delete">Delete</string>
+    <string name="select_profile_image">Select Profile Image</string>
 </resources>
