@@ -2,24 +2,26 @@ package ie.wit.walkabout.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
-import ie.wit.walkabout.R
+import com.squareup.picasso.Picasso
 import ie.wit.walkabout.databinding.CardWalkBinding
 import ie.wit.walkabout.models.WalkaboutModel
+import ie.wit.walkabout.utils.customTransformation
 
 interface WalkClickListener {
-    fun onWalkClick(walk: WalkaboutModel)
-}
+    fun onWalkClick(walk: WalkaboutModel)}
 
 class WalkAdapter constructor(private var walks: ArrayList<WalkaboutModel>,
-                              private val listener: WalkClickListener)
+                              private val listener: WalkClickListener,
+                              private val readOnly: Boolean)
     : RecyclerView.Adapter<WalkAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         val binding = CardWalkBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
 
-        return MainHolder(binding)
+        return MainHolder(binding,readOnly)
     }
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
@@ -33,16 +35,19 @@ class WalkAdapter constructor(private var walks: ArrayList<WalkaboutModel>,
     }
     override fun getItemCount(): Int = walks.size
 
-    inner class MainHolder(val binding : CardWalkBinding) :
+    inner class MainHolder(val binding : CardWalkBinding, private val readOnly : Boolean) :
                             RecyclerView.ViewHolder(binding.root) {
 
+        val readOnlyRow = readOnly
+
         fun bind(walk: WalkaboutModel, listener: WalkClickListener) {
-/*          binding.walkTitle.text = walk.title
-            binding.difficulty.text = walk.difficulty.toString()
-            binding.terrain.text = walk.terrain*/
             binding.root.tag = walk
             binding.walk = walk
-            binding.imageIcon.setImageResource(R.mipmap.ic_launcher_round)
+            Picasso.get().load(walk.profilepic.toUri())
+                .resize(200, 200)
+                .transform(customTransformation())
+                .centerCrop()
+                .into(binding.imageIcon)
             binding.root.setOnClickListener { listener.onWalkClick(walk) }
             binding.executePendingBindings()
         }

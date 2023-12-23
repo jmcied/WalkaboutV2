@@ -24,6 +24,8 @@
         <action
             android:id="@+id/action_listFragment_to_walkFragment"
             app:destination="@id/walkFragment"
+            app:popUpTo="@id/main_navigation"
+            app:popUpToInclusive="true"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
         <action

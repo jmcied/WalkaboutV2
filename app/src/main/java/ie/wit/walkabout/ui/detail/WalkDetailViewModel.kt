@@ -17,7 +17,7 @@ class WalkDetailViewModel : ViewModel() {
     fun getWalk(userid:String, id: String) {
         try {
             FirebaseDBManager.findById(userid, id, walk)
-            Timber.i("Detail getWalk() Success : ${
+            Timber.i("Detail getDonation() Success : ${
                 walk.value.toString()}")
         }
         catch (e: Exception) {
